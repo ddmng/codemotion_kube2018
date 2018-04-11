@@ -99,19 +99,35 @@ kubespray sta migrando verso kubeadm. kops fa "terraforming" dei nodi.
 
 ---
 
+Container runtimes: oltre a docker, anche altri, vedere!
+
+---
+### Logging
+
+* Fluentd standard log collector --> DaemonSet
+* Beat (elastic) --> agent specializzati fatti in GO molto leggeri che inviano verso il repo di logging
+  - meglio ancora pushare su una coda in modo che se cade elastic i log vanno nella coda e non si perdono
+  - nell'esempio crea un daemonset fluentd con elastic e kibana
+  - Beat si include nel deployment
+- Prometheus si interfaccia con un sacco di canali diversi
+  - l'interfaccia serve solo a testare le query da plottare su grafana e sulle quali alzare gli allarmi
+  - dall'alertmanager si possono vedere e silenziare gli allarmi
+  - espone le metriche con gli exporter, o come sidecar o come daemonset - esistono esporter per tantissime componenti. esiste il node-exporter che prende /etc/proc. l'exporter pubblica le metriche a prometheus il quale si occupa di andarsele a raccogliere. nginx-exporter rabbitmq-exporter - posso scrivermi il mio exporter applicativo
+  - dicendogli che sta su k8s, in modo automatico estrae tutte le metriche del cluster
 
 ## Da approfondire
 * "workload statico" per girare anche in nodo singolo
 * "stateful set" raccomandato per far girare i database
 * "operator" gestione dei problemi di alta affidabilità, es. MySQL-operator esiste
 * "vault" per gestire config, secret e cert
-* "https://www.cncf.io/"
+* "https://www.cncf.io/" --> lista dei progetti
 * elenco degli ingress messi a disposizione su github da k8s (https://github.com/kubernetes/ingress-nginx/tree/master)
 * approfondire glusterFS e ceph
 * flannel è un network flat
 * calico supporta networking (ha pgp)
 * weave forse è una via di mezzo?
-
+* virtlet e kubevirt x schedulare VM
+* vedere logging con fluentd, beat e monitoring con Prometheus
 
 ## Links
 * https://www.cncf.io/
