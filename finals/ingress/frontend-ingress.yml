@@ -1,0 +1,12 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: finals-ingress
+spec:
+  rules:
+  - host: finals.kubeprimer.local
+    http:
+      paths:
+      - backend:
+          serviceName: finals-frontend-service
+          servicePort: 4455

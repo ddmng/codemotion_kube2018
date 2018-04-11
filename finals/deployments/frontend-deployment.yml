@@ -1,0 +1,26 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: finals-frontend
+  name: finals-frontend
+spec:
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: finals-frontend
+    spec:
+      containers:
+      - name: finals-frontend
+        image: sighup/kubeprimer_frontend:0.2
+        ports:
+        - containerPort: 4455
+        volumeMounts:
+        - name: secret-volume
+          mountPath: /opt
+      restartPolicy: Always
+      volumes:
+      - name: secret-volume
+        secret:
+          secretName: mysecret
